@@ -20,9 +20,12 @@ export class AvailablePlacesComponent implements OnInit {
   // constructor(private httpClient: HttpClient) {}
 
   ngOnInit() {
-    const subscription = this.httpClient.get<{ places: Place[] }>('http://localhost:3000/places').subscribe({
-      next: (resData) => {
-        console.log(resData.places)
+    const subscription = this.httpClient
+    .get<{ places: Place[] }>('http://localhost:3000/places')
+    .subscribe({
+      next: (respData) => {
+        console.log(respData);
+        console.log(respData.places);
       }
     });
 
