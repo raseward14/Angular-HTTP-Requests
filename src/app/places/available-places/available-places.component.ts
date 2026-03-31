@@ -1,6 +1,6 @@
 import { Component, signal, inject, OnInit, DestroyRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 
 import { Place } from '../place.model';
 import { PlacesComponent } from '../places.component';
@@ -27,13 +27,21 @@ export class AvailablePlacesComponent implements OnInit {
     const subscription = this.httpClient
     .get<{ places: Place[] }>('http://localhost:3000/places')
     .pipe(
-      map((respData) => respData.places)
+      map((respData) => respData.places),
+      catchError((error) => {
+        console.log(error)
+        return throwError(
+          () => new Error(
+            'Something went wrong fetching the available places. Please try again later.'
+          )
+        )
+      })
     )
     .subscribe({
       next: (places) => {
         this.places.set(places);
       },
-      error: (error) => {
+      error: (error: Error) => {
         this.error.set(error.message);
       },
       complete: () => {
