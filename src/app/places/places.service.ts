@@ -31,9 +31,11 @@ export class PlacesService {
     );  
   }
 
-  addPlaceToUserPlaces(placeId: string) {
+  addPlaceToUserPlaces(place: Place) {
+    this.userPlaces.update(oldPlaces => [...oldPlaces, place]);
+
     return this.httpClient.put('http://localhost:3000/user-places', {
-      placeId
+      placeId: place.id
     })
   }
 
