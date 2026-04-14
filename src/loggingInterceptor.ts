@@ -9,7 +9,10 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class LoggingInterceptor implements HttpInterceptor {
-    intercept(req: HttpRequest<unknown>, handler: HttpHandler):
+    intercept(
+        req: HttpRequest<unknown>,
+        handler: HttpHandler
+    ):
         Observable<HttpEvent<any>> {
         console.log('Request URL: ' + req.url);
         return handler.handle(req);
